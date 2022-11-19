@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -22,7 +24,11 @@ namespace Business.Concrete
 
         public IResult Add(Product product)
         {
-            throw new NotImplementedException();
+            ValidationTool.Validate(new ProductValidator(),product);
+
+            _productDal.Add(product);
+
+            return new SuccessResult(Messages.ProductAdded);
         }
 
 
